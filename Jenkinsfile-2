@@ -6,14 +6,30 @@ pipeline {
     GCLOUD_CREDS=credentials('gcloud-creds')
   }
   stages {
-    stage('test') {
+    stage('Verify version') {
       steps {
         sh '''
           gcloud version
+        '''
+      }
+    }
+    stage('Authenticate') {
+      steps {
+        sh '''
           gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
-          gcloud run services list
+        '''
+      }
+    }
+    stage('Install service') {
+      steps {
+        sh '''
           gcloud run services replace service.yaml --platform='managed' --region='us-central1'
-          gcloud run services list
+        '''
+      }
+    }
+    stage('Add permission') {
+      steps {
+        sh '''
           gcloud run services add-iam-policy-binding hello --region='us-central1' --member='allUsers' --role='roles/run.invoker'
         '''
       }
