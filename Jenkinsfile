@@ -12,8 +12,9 @@ pipeline {
           gcloud version
           gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
           gcloud run services list
-          gcloud run services replace service.yaml --platform managed --region us-central1
+          gcloud run services replace service.yaml --platform='managed' --region='us-central1'
           gcloud run services list
+          gcloud run services add-iam-policy-binding hello --region='us-central1' --member='allUsers' --role='roles/run.invoker'
         '''
       }
     }
