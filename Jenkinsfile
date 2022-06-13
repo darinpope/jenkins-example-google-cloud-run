@@ -12,7 +12,7 @@ pipeline {
           gcloud version
           gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
           gcloud run services list
-          gcloud run services replace service.yaml --platform managed
+          gcloud run services replace service.yaml --platform managed --region us-central1
           gcloud run services list
         '''
       }
