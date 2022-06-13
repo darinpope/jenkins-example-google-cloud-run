@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     CLOUDSDK_CORE_PROJECT='insights-api-localdev'
-    CLIENT_EMAIL='insights-api-localdev@appspot.gserviceaccount.com'
+    CLIENT_EMAIL='jenkins@insights-api-localdev.iam.gserviceaccount.com'
     GCLOUD_CREDS=credentials('gcloud-creds')
   }
   stages {
