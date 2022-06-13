@@ -1,0 +1,26 @@
+pipeline {
+  agent any
+  environment {
+    CLOUDSDK_CORE_PROJECT='insights-api-localdev'
+    CLIENT_EMAIL='insights-api-localdev@appspot.gserviceaccount.com'
+    GCLOUD_CREDS=credentials('gcloud-creds')
+  }
+  stages {
+    stage('test') {
+      steps {
+        sh '''
+          gcloud version
+          gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
+          gcloud run services list
+          gcloud run services replace service.yaml --platform managed
+          gcloud run services list
+        '''
+      }
+    }
+  }
+  post {
+    always {
+      sh 'gcloud auth revoke $CLIENT_EMAIL'
+    }
+  }
+}
