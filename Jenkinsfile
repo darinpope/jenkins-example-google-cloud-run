@@ -27,6 +27,13 @@ pipeline {
         '''
       }
     }
+    stage('Allow allUsers') {
+      steps {
+        sh '''
+          gcloud run services add-iam-policy-binding hello --region='us-central1' --member='allUsers' --role='roles/run.invoker'
+        '''
+      }
+    }
   }
   post {
     always {
